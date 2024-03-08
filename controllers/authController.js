@@ -1,25 +1,36 @@
 import User from "../models/userModel.js"
 import bcrypt from "bcrypt"
 import JWT from "jsonwebtoken"
+import { v4 as uuidv4 } from "uuid"
 
 export const register = async (req, res) => {
   try {
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(req.body.password, salt)
+    const { username, password, bio, profilePictureUrl } = req.body;
+    const userId = uuidv4();
 
+    // Hash the password before saving it to the database
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user instance
     const newUser = new User({
-      username: req.body.username,
-      bio: req.body.bio,
-      profilePictureUrl: req.body.profilePictureUrl,
+      userId : userId,
+      username,
       password: hashedPassword,
-    })
+      bio,
+      profilePictureUrl
+    });
 
-    const user = await newUser.save()
-    res.status(200).json(user)
+    // Save the user to the database
+    const savedUser = await newUser.save();
+
+    // Return a success response
+    res.status(201).json({ message: 'User registered successfully', user: savedUser });
   } catch (error) {
-    res.status(500).json(error)
+    // Handle errors
+    console.error('Error registering user:', error);
+    res.status(500).json({ error: 'Server error' });
   }
-}
+};
 
 export const login = async (req, res) => {
     try {

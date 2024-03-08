@@ -6,21 +6,20 @@ export const createUser = async (req, res) => {
     const { username, bio, profilePictureUrl, password } = req.body
 
     // generate a unique user ID using uuid
-    const userId = uuidv4()
+    // const userId = uuidv4()
 
     // create a new user with the provided data from req.body
     const newUser = new User({
       username,
       bio,
-      userId,
       profilePictureUrl,
       password,
     })
 
-    const user = await newUser.save()
+    await new newUser.save()
     res.status(201).json({
       message: "User created successfully",
-      user: user,
+      user: newUser,
     })
   } catch (error) {
     console.error("Error creating user:", error)
@@ -59,10 +58,27 @@ export const deleteUser = async (req, res) => {
     // here finding the user by ID and deleting the profile
     await User.findByIdAndDelete(req.params.userId)
     res.status(204).send({
-        message: "User deleted successfully",
+      message: "User deleted successfully",
     })
   } catch (error) {
     console.error("Error deleting user:", error)
+    res.status(500).json({ error: "Server error" })
+  }
+}
+
+export const followUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId)
+    const currentUser = await User.findById(req.user._id)
+    if (!user.followers.includes(req.user._id)) {
+      await user.updateOne({ $push: { followers: req.user._id } })
+      await currentUser.updateOne({ $push: { following: req.params.userId } })
+      res.status(200).json("user has been followed")
+    } else {
+      res.status(403).json("you already follow this user")
+    }
+  } catch (error) {
+    console.error("Error following user:", error)
     res.status(500).json({ error: "Server error" })
   }
 }
