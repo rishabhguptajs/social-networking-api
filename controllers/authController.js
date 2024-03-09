@@ -57,4 +57,4 @@ export const login = async (req, res) => {
       console.error('Error in login:', error);
       res.status(500).json({ message: 'Server error' });
     }
-;}
+}

@@ -3,11 +3,13 @@ import { login, register } from "../controllers/authController.js"
 import {
   createUser,
   deleteUser,
-  followUser,
+  getFollowers,
+  getFollowing,
   getUser,
   updateUser,
 } from "../controllers/userController.js"
 import { requireSignIn } from "../middlewares/authMiddleware.js"
+import { viewLatestPosts } from "../controllers/postController.js"
 
 const router = express.Router()
 
@@ -18,21 +20,19 @@ router.post("/create", createUser)
 router.put("/update/:userId", updateUser)
 
 // Get user profile
-router.get("/:userId", getUser)
+router.get("/get/:userId", getUser)
 
 // Delete user profile
 router.delete("/delete/:userId", deleteUser)
 
-// Follow a user
-router.post('/follow/:userId', requireSignIn, followUser);
+// Get followers list for the logged-in user
+router.get('/followers', requireSignIn, getFollowers);
 
-// Unfollow a user
-// router.post('/unfollow/:userId', requireSignIn, unfollowUser);
+// Get following list for the logged-in user
+router.get('/following', requireSignIn, getFollowing);
 
-// Get following list
-// router.get('/following', requireSignIn, getFollowing);
+// Endpoint to view the latest posts from followed users
+router.get('/latest-posts', requireSignIn, viewLatestPosts);
 
-// Get followers list
-// router.get('/followers', requireSignIn, getFollowers);
 
 export default router

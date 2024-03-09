@@ -6,10 +6,11 @@ export const createUser = async (req, res) => {
     const { username, bio, profilePictureUrl, password } = req.body
 
     // generate a unique user ID using uuid
-    // const userId = uuidv4()
+    const userId = uuidv4()
 
     // create a new user with the provided data from req.body
     const newUser = new User({
+      userId,
       username,
       bio,
       profilePictureUrl,
@@ -65,20 +66,36 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ error: "Server error" })
   }
 }
-
-export const followUser = async (req, res) => {
+// Get followers list for the logged-in user
+export const getFollowers = async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId)
-    const currentUser = await User.findById(req.user._id)
-    if (!user.followers.includes(req.user._id)) {
-      await user.updateOne({ $push: { followers: req.user._id } })
-      await currentUser.updateOne({ $push: { following: req.params.userId } })
-      res.status(200).json("user has been followed")
-    } else {
-      res.status(403).json("you already follow this user")
+    const user = await User.findById(req.user._id).populate(
+      "followers",
+      "username"
+    )
+    if (!user) {
+      return res.status(404).json({ message: "User not found" })
     }
+    if (!user.followers) {
+      return res.status(200).json({ followers: [] }) // Return an empty array if followers list is null
+    }
+    res.status(200).json({ followers: user.followers })
   } catch (error) {
-    console.error("Error following user:", error)
+    console.error("Error retrieving followers:", error)
+    res.status(500).json({ error: "Server error" })
+  }
+}
+
+// Get following list for the logged-in user
+export const getFollowing = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).populate(
+      "following",
+      "username"
+    )
+    res.status(200).json({ following: user.following })
+  } catch (error) {
+    console.error("Error retrieving following:", error)
     res.status(500).json({ error: "Server error" })
   }
 }
