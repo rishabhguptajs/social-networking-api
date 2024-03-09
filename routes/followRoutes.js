@@ -6,7 +6,5 @@ const router = express.Router();
 
 router.post('/follow/:userId', requireSignIn, followUser);
 router.post('/unfollow/:userId', requireSignIn, unfollowUser);
-// router.get('/following', requireSignIn, getFollowing);
-// router.get('/followers', requireSignIn, getFollowers);
 
 export default router;

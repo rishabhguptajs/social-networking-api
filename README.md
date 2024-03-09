@@ -44,30 +44,61 @@ The Social Networking API is a RESTful API built using Node.js and Express.js th
 
 ## API Endpoints
 
-### User Endpoints
+### User Routes
 
-- **POST /api/auth/register**: Register a new user.
-- **POST /api/auth/login**: Login and generate a JWT token.
-- **POST /api/user/create**: Create a new user profile.
-- **PUT /api/user/update/:userId**: Update user profile.
-- **GET /api/user/:userId**: Get user profile.
-- **DELETE /api/user/delete/:userId**: Delete user profile.
-- **POST /api/user/follow/:userId**: Follow a user.
-- **GET /api/user/following**: Get list of users being followed.
-- **GET /api/user/followers**: Get list of followers.
+#### Create a New User
+- **POST** /api/user/create
 
-### Post Endpoints
+#### Update User Profile
+- **PUT** /api/user/update/:userId
 
-- **POST /api/post/create**: Create a new post.
-- **PUT /api/post/update/:postId**: Update post.
-- **GET /api/post/:postId**: Get post details.
-- **DELETE /api/post/delete/:postId**: Delete post.
+#### Get User Profile
+- **GET** /api/user/get/:userId
 
-### Follow/Unfollow & Latest Posts
+#### Delete User Profile
+- **DELETE** /api/user/delete/:userId
 
-- **POST /api/user/follow/:userId**: Follow a user.
-- **POST /api/user/unfollow/:userId**: Unfollow a user.
-- **GET /api/user/latest-posts**: Get latest posts from followed users.
+#### Get Followers List
+- **GET** /api/user/followers
+
+#### Get Following List
+- **GET** /api/user/following
+
+#### View Latest Posts
+- **GET** /api/user/latest-posts
+
+### Post Routes
+
+#### Create a New Post
+- **POST** /api/post/create
+
+#### Update Post
+- **PUT** /api/post/update/:postId
+
+#### Get Post
+- **GET** /api/post/get/:postId
+
+#### Delete Post
+- **DELETE** /api/post/delete/:postId
+
+#### View Latest Posts
+- **GET** /api/post/latest-posts
+
+### Follow Routes
+
+#### Follow a User
+- **POST** /api/routes/follow/:userId
+
+#### Unfollow a User
+- **POST** /api/routes/unfollow/:userId
+
+### Authentication Routes
+
+#### Register
+- **POST** /api/auth/register
+
+#### Login
+- **POST** /api/auth/login
 
 ## Testing
 
@@ -75,3 +106,4 @@ Integration tests are written using Jest and Supertest. To run the tests, use th
 
 ```bash
 npm test
+
