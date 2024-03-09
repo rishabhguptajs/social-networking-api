@@ -1,7 +1,6 @@
-// followController.js
+import User from "../models/userModel.js";
 
-import User from "../models/userModel.js"
-
+// Follow a user
 export const followUser = async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -26,12 +25,13 @@ export const followUser = async (req, res) => {
     console.error("Error following user:", error);
     res.status(500).json({ error: "Server error" });
   }
-}
+};
 
+// Unfollow a user
 export const unfollowUser = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const followerId = req.user.userId; // Extracted from authentication middleware
+    const followerId = req.user._id; // Extracted from authentication middleware
 
     // Check if the user is already being followed
     const user = await User.findById(userId);
@@ -52,4 +52,4 @@ export const unfollowUser = async (req, res) => {
     console.error("Error unfollowing user:", error);
     res.status(500).json({ error: "Server error" });
   }
-}
+};
