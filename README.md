@@ -18,13 +18,19 @@ The Social Networking API is a RESTful API built using Node.js and Express.js th
     git clone <repository_url>
     ```
 
-2. Install dependencies:
+2. Navigate to your directory:
 
     ```bash
-    npm install
+    cd <directory_name>
     ```
 
-3. Set up environment variables:
+3. Install dependencies:
+
+    ```bash
+    npm install .
+    ```
+
+4. Set up environment variables:
 
     Create a `.env` file in the root directory and provide the following variables:
 
@@ -34,7 +40,7 @@ The Social Networking API is a RESTful API built using Node.js and Express.js th
     JWT_SECRET=<your_jwt_secret>
     ```
 
-4. Run the application:
+5. Run the application:
 
     ```bash
     npm run server
