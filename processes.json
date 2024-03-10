@@ -1,0 +1,17 @@
+{
+  "apps": [
+    {
+      "name": "social networking api",
+      "script": "server.js",
+      "merge_logs": true,
+      "max_restarts": 20,
+      "instances": 4,
+      "max_memory_restart": "200M",
+      "env": {
+        "MONGODB_URI": "mongodb+srv://Rishabh:Rishabh05@cluster0.rv5raqr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+        "PORT": "8080",
+        "JWT_SECRET": "1234ABCD"
+      }
+    }
+  ]
+}
